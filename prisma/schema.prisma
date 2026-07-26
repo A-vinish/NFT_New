@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  nftsCreated NFT[]         @relation("Creator")
+  nftsOwned   NFT[]         @relation("Owner")
+  purchases   Transaction[] @relation("Buyer")
+  sales       Transaction[] @relation("Seller")
+}
+
+model NFT {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  price       Float
+  category    String   @default("Other")
+  imageUrl    String
+  isSold      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  creatorId Int
+  ownerId   Int
+  creator   User @relation("Creator", fields: [creatorId], references: [id])
+  owner     User @relation("Owner", fields: [ownerId], references: [id])
+
+  transactions Transaction[]
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  price     Float
+  createdAt DateTime @default(now())
+
+  nftId    Int
+  sellerId Int
+  buyerId  Int
+  nft      NFT  @relation(fields: [nftId], references: [id])
+  seller   User @relation("Seller", fields: [sellerId], references: [id])
+  buyer    User @relation("Buyer", fields: [buyerId], references: [id])
+}

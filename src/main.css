@@ -1,0 +1,877 @@
+/* =========================================================================
+   OpenD — visual design system
+   Scope: styling only. No component logic, routes, or state are affected
+   by this file — every selector below targets class names that already
+   exist in the JSX exactly as written, so nothing needs to change there.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root {
+  /* --- Palette: "vault at midnight" — deep violet-ink base so the NFT
+     artwork (full-color images) stays the loudest thing on the page, with
+     a warm amber used only for value/price, never decoration. --- */
+  --ink: #100E1C;
+  --surface: #1A1730;
+  --surface-2: #221E3D;
+  --surface-3: #2B2650;
+  --border: rgba(237, 233, 254, 0.09);
+  --border-strong: rgba(237, 233, 254, 0.16);
+
+  --accent: #8B5CF6;
+  --accent-bright: #A78BFA;
+  --accent-ink: #16123A;
+  --gold: #F0B429;
+  --gold-dim: #B08628;
+
+  --text: #F3F1FB;
+  --text-muted: #A69FC9;
+  --text-faint: #6E6790;
+
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-body: "Inter", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", monospace;
+
+  --radius-s: 8px;
+  --radius-m: 14px;
+  --radius-l: 22px;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px -12px rgba(6, 4, 20, 0.65);
+  --shadow-lift: 0 20px 45px -18px rgba(139, 92, 246, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--ink);
+  background-image:
+    radial-gradient(60rem 30rem at 90% -10%, rgba(139, 92, 246, 0.14), transparent 60%),
+    radial-gradient(40rem 24rem at -10% 20%, rgba(240, 180, 41, 0.06), transparent 55%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* -------------------------------------------------------------------------
+   Header
+   ------------------------------------------------------------------------- */
+
+.app-root-1 {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+header.Paper-root.AppBar-root {
+  background: rgba(20, 17, 38, 0.78);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.Toolbar-root.Toolbar-regular.header-appBar-13 {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 28px;
+  min-height: unset;
+}
+
+.header-left-4 {
+  display: none;
+}
+
+.header-logo-11 {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+
+.header-vertical-9 {
+  display: none;
+}
+
+.header-logo-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 0 0 10px;
+  white-space: nowrap;
+}
+
+.header-empty-6 {
+  flex: 1;
+}
+
+.header-space-8 {
+  display: none;
+}
+
+/* Nav buttons: turn the three plain <button><Link/></button> pairs into a
+   quiet pill group anchored to the right of the bar. */
+.header-appBar-13 {
+  gap: 4px;
+}
+
+.ButtonBase-root.Button-root.Button-text.header-navButtons-3 {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0;
+  margin-left: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.ButtonBase-root.Button-root.Button-text.header-navButtons-3:hover {
+  background: var(--surface-2);
+  border-color: var(--border-strong);
+}
+
+.header-navButtons-3 a {
+  display: block;
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.header-navButtons-3:hover a {
+  color: var(--text);
+}
+
+/* -------------------------------------------------------------------------
+   Home hero image
+   ------------------------------------------------------------------------- */
+
+.bottom-space {
+  display: block;
+  width: 100%;
+  max-height: 640px;
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.02);
+  -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+}
+
+.hero {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 108px 28px 96px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+  background: linear-gradient(135deg, var(--text) 30%, var(--accent-bright) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 0 32px;
+}
+
+.hero-cta {
+  display: inline-block;
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 28px;
+  border-radius: 999px;
+  box-shadow: 0 10px 26px -10px rgba(139, 92, 246, 0.65);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.hero-cta:hover {
+  background: var(--accent-bright);
+  transform: translateY(-1px);
+}
+
+/* -------------------------------------------------------------------------
+   Gallery
+   ------------------------------------------------------------------------- */
+
+.gallery-view {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 28px 80px;
+}
+
+.makeStyles-title-99.Typography-h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.9rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 0 0 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.disGrid-root.disGrid-container.disGrid-spacing-xs-5.disGrid-justify-content-xs-center {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: flex-start;
+}
+
+/* -------------------------------------------------------------------------
+   NFT item card
+   ------------------------------------------------------------------------- */
+
+.disGrid-item {
+  width: 272px;
+}
+
+.disPaper-root.disCard-root.makeStyles-root-17 {
+  position: relative;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.disPaper-root.disCard-root.makeStyles-root-17:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-lift);
+}
+
+.disCardMedia-root.makeStyles-image-19.disCardMedia-media.disCardMedia-img {
+  display: block;
+  width: 100%;
+  height: 272px;
+  object-fit: cover;
+  background: var(--surface-3);
+  transition: filter 0.25s ease;
+}
+
+.disCardContent-root {
+  position: relative;
+  padding: 18px 18px 20px;
+}
+
+.disTypography-root.makeStyles-bodyText-24.disTypography-h5.disTypography-gutterBottom {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.08rem;
+  color: var(--text);
+  margin: 4px 0 6px;
+}
+
+.purple-text {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(240, 180, 41, 0.12);
+  border: 1px solid rgba(240, 180, 41, 0.3);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.disTypography-root.makeStyles-bodyText-24.disTypography-body2.disTypography-colorTextSecondary {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+  overflow-wrap: anywhere;
+}
+
+.price-input {
+  width: 100%;
+  background: var(--surface-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-s);
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  transition: border-color 0.15s ease;
+}
+
+.price-input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.price-input::placeholder {
+  color: var(--text-faint);
+}
+
+/* Price badge — the one deliberately "loud" element on a card: a small
+   holographic-style ribbon so a listed price reads instantly as value. */
+.disButtonBase-root.disChip-root.makeStyles-price-23.disChip-outlined {
+  position: absolute;
+  top: -34px;
+  right: 14px;
+  background: linear-gradient(135deg, var(--gold) 0%, #FFD873 50%, var(--gold) 100%);
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  box-shadow: 0 6px 16px -4px rgba(240, 180, 41, 0.55);
+}
+
+.disChip-label {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.78rem;
+  color: var(--accent-ink);
+  letter-spacing: 0.01em;
+}
+
+/* -------------------------------------------------------------------------
+   Buttons / Chips (Button.jsx + Minter mint action)
+   ------------------------------------------------------------------------- */
+
+.Chip-root.makeStyles-chipBlue-108.Chip-clickable,
+.form-ButtonBase-root.form-Chip-root.makeStyles-chipBlue-108.form-Chip-clickable {
+  display: inline-block;
+  background: var(--accent);
+  border-radius: 999px;
+  padding: 9px 22px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 8px 20px -8px rgba(139, 92, 246, 0.6);
+}
+
+.Chip-root.makeStyles-chipBlue-108.Chip-clickable:hover,
+.form-ButtonBase-root.form-Chip-root.makeStyles-chipBlue-108.form-Chip-clickable:hover {
+  background: var(--accent-bright);
+  transform: translateY(-1px);
+}
+
+.form-Chip-label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+/* -------------------------------------------------------------------------
+   Loader (the classic 4-dot "lds-ellipsis" spinner already referenced
+   in Item.jsx and Minter.jsx)
+   ------------------------------------------------------------------------- */
+
+.lds-ellipsis {
+  position: relative;
+  width: 64px;
+  height: 24px;
+  margin: 12px auto;
+}
+
+.lds-ellipsis div {
+  position: absolute;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) { left: 4px; animation: lds-ellipsis1 0.6s infinite; }
+.lds-ellipsis div:nth-child(2) { left: 4px; animation: lds-ellipsis2 0.6s infinite; }
+.lds-ellipsis div:nth-child(3) { left: 26px; animation: lds-ellipsis2 0.6s infinite; }
+.lds-ellipsis div:nth-child(4) { left: 48px; animation: lds-ellipsis3 0.6s infinite; }
+
+@keyframes lds-ellipsis1 { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+@keyframes lds-ellipsis3 { 0% { transform: scale(1); } 100% { transform: scale(0); } }
+@keyframes lds-ellipsis2 { 0% { transform: translate(0, 0); } 100% { transform: translate(22px, 0); } }
+
+/* -------------------------------------------------------------------------
+   Minter form
+   ------------------------------------------------------------------------- */
+
+.minter-container {
+  max-width: 480px;
+  margin: 64px auto 96px;
+  padding: 36px 32px 40px;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.minter-container h3.makeStyles-title-99 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin: 0 0 22px;
+}
+
+.form-Typography-root.makeStyles-subhead-102 {
+  display: block;
+  text-align: left;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 20px 0 8px;
+}
+
+.upload-container {
+  text-align: left;
+}
+
+.upload {
+  width: 100%;
+  padding: 14px;
+  background: var(--surface-3);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-s);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.form-FormControl-root.form-TextField-root {
+  width: 100%;
+  text-align: left;
+}
+
+.form-InputBase-root.form-OutlinedInput-root {
+  position: relative;
+  display: flex;
+  background: var(--surface-3);
+  border-radius: var(--radius-s);
+  overflow: hidden;
+}
+
+.form-InputBase-input.form-OutlinedInput-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  position: relative;
+  z-index: 1;
+}
+
+.form-InputBase-input.form-OutlinedInput-input::placeholder {
+  color: var(--text-faint);
+}
+
+.form-InputBase-input.form-OutlinedInput-input:focus {
+  outline: none;
+}
+
+.PrivateNotchedOutline-root-60.form-OutlinedInput-notchedOutline {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-s);
+  pointer-events: none;
+  transition: border-color 0.15s ease;
+}
+
+.form-InputBase-root.form-OutlinedInput-root:focus-within .PrivateNotchedOutline-root-60 {
+  border-color: var(--accent);
+}
+
+.minter-container form {
+  margin-top: 4px;
+}
+
+.minter-container .form-ButtonBase-root {
+  margin-top: 26px;
+}
+
+.horizontal-center {
+  display: flex;
+  justify-content: center;
+}
+
+/* -------------------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------------------- */
+
+#footer {
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+#footer footer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 28px 48px;
+}
+
+#footer p {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+#footer .col:last-child p,
+#footer [class*="col"]:last-child p {
+  text-align: right;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+/* -------------------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  .Toolbar-root.Toolbar-regular.header-appBar-13 {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+
+  .header-navButtons-3 a {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .gallery-view {
+    padding: 36px 16px 56px;
+  }
+
+  .disGrid-root.disGrid-container.disGrid-spacing-xs-5.disGrid-justify-content-xs-center {
+    justify-content: center;
+  }
+
+  .minter-container {
+    margin: 40px 16px 64px;
+    padding: 28px 20px 32px;
+  }
+
+  #footer .row,
+  #footer [class*="row"] {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  #footer .col:last-child p,
+  #footer [class*="col"]:last-child p {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* =========================================================================
+   Additions for the local (MERN) build: auth forms, search/filter bar,
+   NFT details page, purchase history, header auth state.
+   ========================================================================= */
+
+.header-auth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 12px;
+}
+
+.header-username {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.header-logout-btn {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.header-logout-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.auth-container {
+  max-width: 420px;
+  margin: 72px auto 96px;
+  padding: 36px 32px 32px;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-card);
+}
+
+.auth-container h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin: 0 0 22px;
+  text-align: center;
+}
+
+.auth-field {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.auth-field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 11px 13px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-s);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+}
+
+.auth-field input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.auth-switch {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.auth-switch a {
+  color: var(--accent-bright);
+  font-weight: 600;
+}
+
+.auth-error {
+  background: rgba(240, 90, 90, 0.1);
+  border: 1px solid rgba(240, 90, 90, 0.35);
+  color: #ff9d9d;
+  border-radius: var(--radius-s);
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  margin-bottom: 16px;
+}
+
+.search-filter-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 28px 0;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.search-filter-bar input[type="text"] {
+  flex: 1;
+  min-width: 220px;
+  padding: 11px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.search-filter-bar input[type="text"]:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.search-filter-bar select {
+  padding: 11px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 28px;
+  text-align: center;
+  color: var(--text-faint);
+  font-family: var(--font-body);
+}
+
+.nft-details {
+  max-width: 880px;
+  margin: 56px auto 96px;
+  padding: 0 28px;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.nft-details img {
+  width: 340px;
+  max-width: 100%;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  object-fit: cover;
+}
+
+.nft-details-info {
+  flex: 1;
+  min-width: 260px;
+}
+
+.nft-details-info h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.7rem;
+  margin: 0 0 6px;
+}
+
+.nft-details-info .category-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-bright);
+  background: rgba(139, 92, 246, 0.14);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.nft-details-info p.description {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.nft-details-info .meta-row {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+
+.transactions-table {
+  max-width: 1000px;
+  margin: 56px auto 96px;
+  padding: 0 28px;
+}
+
+.transactions-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+}
+
+.transactions-table th {
+  text-align: left;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.transactions-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.transactions-table tr:last-child td {
+  border-bottom: none;
+}
+
+.role-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.role-badge.buyer {
+  color: var(--gold);
+  background: rgba(240, 180, 41, 0.12);
+  border: 1px solid rgba(240, 180, 41, 0.3);
+}
+
+.role-badge.seller {
+  color: var(--accent-bright);
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}

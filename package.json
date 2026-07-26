@@ -1,0 +1,12 @@
+{
+  "name": "opend-mern-postgres",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OpenD NFT Marketplace - Node/Express/PostgreSQL/Prisma/React (local, no blockchain)",
+  "scripts": {
+    "install": "npm install --prefix server && npm install --prefix client",
+    "server": "npm run dev --prefix server",
+    "start": "npm start --prefix client",
+    "migrate": "npm run prisma:migrate --prefix server"
+  }
+}
