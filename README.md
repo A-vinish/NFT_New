@@ -98,18 +98,4 @@ The Discover feed only ever queries `isSold: false`, so a bought NFT
 disappears from Discover and shows up in the buyer's My NFTs automatically
 — no extra bookkeeping needed on the frontend.
 
-## Optional: browse the database
 
-```bash
-cd server && npx prisma studio
-```
-
-Opens a local GUI at `http://localhost:5555` for inspecting/editing rows directly.
-
-## Notes on what changed from the original ICP version
-
-- `Principal` IDs → Postgres integer primary keys tied to a real `User` account (JWT-authenticated instead of an anonymous local identity).
-- `Actor.createActor()` / canister calls → plain `axios` calls to the Express API.
-- On-chain "listing" (mint → separate sell step) is now a single step: price and category are set at mint time, and an NFT is listed the moment it's created.
-- The DANG token → a plain USD-style price field; buying debits nothing, it just transfers ownership and logs a `Transaction` row.
-- The original `home-img.png` / `logo.png` assets weren't part of the files provided for this rewrite, so the home hero and header mark were rebuilt as lightweight CSS/SVG — swap in your original art at `client/src/assets/` if you have it.
