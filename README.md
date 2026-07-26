@@ -1,101 +1,313 @@
-<!-- npm run server
-npm start -->
+# 🚀 OpenD – NFT Marketplace (Local Edition)
 
-# OpenD — NFT Marketplace (local, no blockchain)
+A full-stack NFT Marketplace inspired by OpenSea, rebuilt to run entirely on a local development environment without blockchain dependencies.
 
-A local rebuild of the OpenD NFT marketplace — no Internet Computer, DFX,
-Motoko, canisters, or Internet Identity. Same UI and feature set (mint,
-discover, buy, own, track purchase history), backed by Express +
-PostgreSQL instead of a blockchain.
+The original project was based on the Internet Computer Protocol (ICP), Motoko, and Canisters. This version replaces the blockchain layer with a traditional backend built using **Node.js, Express, PostgreSQL, and Prisma**, making it easier to develop, test, and deploy while preserving the core marketplace workflow.
 
-## Stack
+---
 
-- **Client:** React 18, React Router v5, Axios, react-hook-form, Bootstrap
-- **Server:** Node.js, Express, JWT auth, Multer (image uploads)
-- **Database:** PostgreSQL via Prisma ORM
+## ✨ Features
 
-## Prerequisites
+- 🔐 User Authentication (JWT)
+- 🎨 Mint and list NFTs
+- 📤 Upload NFT images
+- 🛍 Browse marketplace listings
+- 🔍 Search and filter NFTs
+- 💰 Purchase NFTs
+- 🔄 Automatic ownership transfer
+- 📜 Transaction history
+- 👤 My NFTs dashboard
+- 📱 Responsive user interface
 
-- Node.js 18+
-- PostgreSQL running locally (e.g. `brew install postgresql` / `apt install postgresql`, or a GUI like Postgres.app)
+---
 
-## Setup
+## 🏗 Tech Stack
+
+### Frontend
+- React.js
+- React Router
+- Axios
+- React Hook Form
+- Bootstrap
+
+### Backend
+- Node.js
+- Express.js
+- JWT Authentication
+- Multer
+
+### Database
+- PostgreSQL
+- Prisma ORM
+
+---
+
+# 📁 Project Structure
+
+```text
+OpenD/
+│
+├── client/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   └── App.js
+│   │
+│   ├── package.json
+│   └── public/
+│
+├── server/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── prisma/
+│   ├── routes/
+│   ├── uploads/
+│   ├── lib/
+│   ├── app.js
+│   ├── package.json
+│   └── .env.example
+│
+└── README.md
+```
+
+---
+
+# ⚙ Installation
+
+## 1. Clone the Repository
 
 ```bash
-# 1. Create an empty database
-createdb opend
-# (or: psql -U postgres -c "CREATE DATABASE opend;")
+git clone https://github.com/yourusername/opend.git
 
-# 2. From the project root, install everything
+cd opend
+```
+
+---
+
+## 2. Install Dependencies
+
+From the project root
+
+```bash
 npm install
+```
 
-# 3. Configure the server
-cp server/.env.example server/.env
-# edit server/.env — set DATABASE_URL to match your Postgres user/password,
-# and set JWT_SECRET to any long random string
+---
 
-# 4. Create the database tables
+## 3. Configure PostgreSQL
+
+Create a database
+
+```sql
+CREATE DATABASE opend;
+```
+
+Copy
+
+```
+server/.env.example
+```
+
+to
+
+```
+server/.env
+```
+
+Configure
+
+```env
+DATABASE_URL="postgresql://postgres:yourpassword@localhost:5432/opend?schema=public"
+
+JWT_SECRET=your_secret_key
+```
+
+---
+
+## 4. Run Database Migration
+
+```bash
 npm run migrate
 ```
 
-`npm run migrate` runs `prisma migrate dev`, which reads `server/prisma/schema.prisma`
-and creates the `User`, `NFT`, and `Transaction` tables in your database.
+This command creates the database tables using Prisma.
 
-## Run
+---
 
-Two terminals, from the project root:
+# ▶ Running the Project
+
+Start the backend
 
 ```bash
-npm run server   # Express API on http://localhost:5000
-npm start        # React app on http://localhost:3000
+npm run server
 ```
 
-The client's `package.json` proxies `/api/*` to `http://localhost:5000` in
-development, so no CORS setup is needed.
-
-## Project structure
+Backend runs on
 
 ```
-client/                 React frontend
-  src/
-    api/axios.js          axios instance + JWT interceptor
-    context/               AuthContext (login/register/logout)
-    components/             Header, Gallery, Item, Minter, NFTDetails, Login, Register, PurchaseHistory
-server/                  Express backend
-  prisma/schema.prisma     User / NFT / Transaction models (PostgreSQL)
-  lib/prisma.js             shared PrismaClient instance
-  controllers/               request handlers
-  routes/                     REST endpoints
-  middleware/                  JWT auth guard, Multer upload config
-  uploads/                      uploaded NFT images (served at /uploads/<file>)
+http://localhost:5000
 ```
 
-## API
+Open another terminal and start the frontend
 
-| Method | Route                 | Auth | Description                          |
-|--------|------------------------|------|--------------------------------------|
-| POST   | `/api/auth/register`   | —    | Create an account                    |
-| POST   | `/api/auth/login`      | —    | Log in, returns a JWT                |
-| GET    | `/api/auth/me`         | ✓    | Current user                         |
-| POST   | `/api/nft/create`      | ✓    | Mint/list an NFT (multipart upload)  |
-| GET    | `/api/nft`             | —    | Discover feed; `?search=&category=`  |
-| GET    | `/api/nft/:id`         | —    | NFT details                          |
-| PUT    | `/api/nft/buy/:id`     | ✓    | Buy an NFT                           |
-| GET    | `/api/user/my-nfts`    | ✓    | NFTs the current user owns           |
-| GET    | `/api/transactions`    | ✓    | Purchase/sale history                |
+```bash
+npm start
+```
 
-## Buying flow
+Frontend runs on
 
-`PUT /api/nft/buy/:id` does exactly what a canister transfer used to do,
-but as one Postgres transaction:
+```
+http://localhost:3000
+```
 
-1. Confirm the NFT exists and isn't already sold
-2. Confirm the buyer isn't the current owner
-3. Flip `isSold` to true and reassign `ownerId` to the buyer
-4. Insert a `Transaction` row (seller, buyer, price)
+---
 
-The Discover feed only ever queries `isSold: false`, so a bought NFT
-disappears from Discover and shows up in the buyer's My NFTs automatically
-— no extra bookkeeping needed on the frontend.
+# 🛒 Marketplace Workflow
 
+### Create NFT
 
+- Login
+- Upload image
+- Enter NFT details
+- Set price
+- Publish
+
+---
+
+### Buy NFT
+
+When a user purchases an NFT:
+
+- Verify the NFT exists
+- Check ownership
+- Mark NFT as sold
+- Transfer ownership
+- Record transaction
+- Remove NFT from Discover
+- Display NFT in My NFTs
+
+---
+
+# 📡 REST API
+
+## Authentication
+
+| Method | Endpoint |
+|----------|----------------------|
+| POST | /api/auth/register |
+| POST | /api/auth/login |
+| GET | /api/auth/me |
+
+---
+
+## NFT
+
+| Method | Endpoint |
+|----------|---------------------|
+| POST | /api/nft/create |
+| GET | /api/nft |
+| GET | /api/nft/:id |
+| PUT | /api/nft/buy/:id |
+
+---
+
+## User
+
+| Method | Endpoint |
+|----------|-----------------------|
+| GET | /api/user/my-nfts |
+
+---
+
+## Transactions
+
+| Method | Endpoint |
+|----------|--------------------------|
+| GET | /api/transactions |
+
+---
+
+# 🗄 Database Models
+
+### User
+
+- id
+- username
+- email
+- password
+- NFTs
+- Transactions
+
+---
+
+### NFT
+
+- id
+- title
+- description
+- image
+- price
+- ownerId
+- creatorId
+- category
+- isSold
+
+---
+
+### Transaction
+
+- id
+- buyerId
+- sellerId
+- nftId
+- amount
+- purchasedAt
+
+---
+
+# 🎯 Key Highlights
+
+- Complete NFT marketplace workflow
+- Local development without blockchain dependencies
+- JWT-based authentication
+- Image upload support
+- Ownership transfer logic
+- Transaction history
+- Responsive React interface
+- Clean REST API architecture
+- Prisma ORM with PostgreSQL
+
+---
+
+# 🔮 Future Improvements
+
+- Wishlist
+- User profiles
+- NFT collections
+- Favorites
+- Admin dashboard
+- Stripe payment integration
+- Cloudinary image storage
+- Docker support
+- Email verification
+- Dark mode
+
+---
+
+# 👨‍💻 Author
+
+**Avinish Kumar Mahato**
+
+Software Engineering Student
+
+Areas of Interest
+
+- Full Stack Development
+- Machine Learning
+- Artificial Intelligence
+- Generative AI
+- Computer Vision
+
+---
